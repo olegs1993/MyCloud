@@ -6,6 +6,7 @@ import com.javapro.cloudservice.dao.FolderDao;
 import com.javapro.cloudservice.dao.UserDao;
 import com.javapro.cloudservice.entities.Files;
 import com.javapro.cloudservice.entities.Folders;
+import com.javapro.cloudservice.entities.Users;
 import com.javapro.cloudservice.service.Service;
 import com.javapro.cloudservice.utils.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,10 @@ public class ServiceImpl implements Service {
     @Override
     public List<Folders> getFolders(String name) {
         return folderDao.getFolders(name);
+    }
+
+    @Override
+    public Users getUser(String nickname) {
+        return userDao.getUser(nickname);
     }
 }

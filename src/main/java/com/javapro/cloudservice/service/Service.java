@@ -2,6 +2,7 @@ package com.javapro.cloudservice.service;
 
 import com.javapro.cloudservice.entities.Files;
 import com.javapro.cloudservice.entities.Folders;
+import com.javapro.cloudservice.entities.Users;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -15,4 +16,5 @@ public interface Service {
     public void addFiles(String name, String nickname, String folder, MultipartFile multipartfile);
     public List<Files> getFiles(String name, String folder);
     public List<Folders> getFolders(String name);
+    Users getUser(String nickname);
 }

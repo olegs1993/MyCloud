@@ -1,6 +1,7 @@
 package com.javapro.cloudservice.dao.impl;
 
 import com.javapro.cloudservice.dao.UserDao;
+import com.javapro.cloudservice.entities.Folders;
 import com.javapro.cloudservice.entities.Users;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
@@ -20,5 +21,10 @@ public class UserDaoImpl implements UserDao {
         users.setPassword(password);
         users.setDirectory("D:\\CloudUsers\\"+name);
         entityManager.persist(users);
+    }
+
+    @Override
+    public Users getUser(String nickname) {
+        return entityManager.createQuery("SELECT c from Users c where c.nickname=:nickname",Users.class).setParameter("nickname",nickname).getSingleResult();
     }
 }
