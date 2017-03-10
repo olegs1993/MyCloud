@@ -91,35 +91,34 @@
         <div class="col-md-4">.col-md-4</div>
         <div class="col-md-4">
             <c:forEach items="${folders}" var="folder">
-                <a href="${folder.name}"><img src="<c:url value="/resources/img/folder.png" />"  >${folder.name}</a><br>
+                <a href="${path}/${folder.name}"><img src="<c:url value="/resources/img/folder.png" />">${folder.name}</a><br>
             </c:forEach>
             <c:forEach items="${files}" var="file">
-                <img src="<c:url value="/resources/img/file.png" />"> ${file.name}<br>
+                <!-- Исправить-->
+                <a href="${path}/${file.name.trim()}/download"><img src="<c:url value="/resources/img/file.png" />"> ${file.name}<br></a>
             </c:forEach>
-
-
         </div>
+
         <div class="col-md-4">.col-md-4</div>
     </div>
 
 </div>
 <div class="hidden">
-    <form method="post" id="form" enctype="multipart/form-data" >
+    <form action=""  id="form"  enctype="multipart/form-data">
         <div class="form-group">
-            <label for="exampleInputFile">File input</label>
-            <input type="file" id="exampleInputFile">
-            <p class="help-block">Example block-level help text here.</p>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <input id="file_v" type="file" />
+        <div id="message_form"></div>
+        <input type="submit"  id= "firstform" value="Отправить">
+            </div>
     </form>
 </div>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" />" ></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/home.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.magnific-popup.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/home.js" />" ></script>
+
 </body>
 

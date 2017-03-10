@@ -16,6 +16,7 @@ public class FileUtilsImpl implements FileUtils {
 //изменить
         public void uploadFile(String dir,MultipartFile multipartFile) {
         File file= new File(dir);
+            file.getAbsolutePath();
             System.out.println(multipartFile.getOriginalFilename());
         try (BufferedOutputStream bufferedOutputStream=new BufferedOutputStream(new FileOutputStream(file.getAbsolutePath()))){
             byte[] bytes=multipartFile.getBytes();

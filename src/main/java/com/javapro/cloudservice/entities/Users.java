@@ -1,13 +1,10 @@
 package com.javapro.cloudservice.entities;
-
 import javax.persistence.*;
-
 /**
  * Created by Oleg on 18.02.2017.
  */
 @Entity
 @Table(name = "\"Users\"")
-
 public class Users {
     private int id;
     private String nickname;

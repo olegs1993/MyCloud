@@ -9,9 +9,12 @@ import com.javapro.cloudservice.entities.Folders;
 import com.javapro.cloudservice.entities.Users;
 import com.javapro.cloudservice.service.Service;
 import com.javapro.cloudservice.utils.FileUtils;
+import org.springframework.beans.factory.NamedBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -47,7 +50,7 @@ public class ServiceImpl implements Service {
     @Override
     public void addFiles(String name, String nickname, String folder,MultipartFile multipartFile) {
         filesDao.addFiles(name,nickname,folder);
-        fileUtils.uploadFile("D:\\CloudUsers\\"+nickname,multipartFile );
+        fileUtils.uploadFile("D:\\CloudUsers\\"+nickname+"\\"+name,multipartFile );
     }
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
@@ -65,5 +68,10 @@ public class ServiceImpl implements Service {
     @Override
     public Users getUser(String nickname) {
         return userDao.getUser(nickname);
+    }
+
+    @Override
+    public void downloadFile(String filname,String nickname, OutputStream outputStream) {
+        fileUtils.downloadFile("D:\\CloudUsers\\"+nickname+"\\"+filname,outputStream);
     }
 }

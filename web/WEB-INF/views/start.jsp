@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/home">
+<form action="/home" method="post">
     <div class="form-group">
         <label for="exampleInputEmail1">Nickname</label>
         <input type="text" class="form-control" id="exampleInputEmail1" placeholder="nickname" name="nickname">
@@ -23,5 +23,6 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
 </form>
+${ContextPath}
 </body>
 </html>
