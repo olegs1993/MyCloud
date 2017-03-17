@@ -14,7 +14,6 @@ import java.io.*;
  */
 @Component
 public class FileUtilsImpl implements FileUtils {
-
         public void uploadFile(String dir,MultipartFile multipartFile) throws IOException {
         File file= new File(dir);
             file.getAbsolutePath();
@@ -26,10 +25,8 @@ public class FileUtilsImpl implements FileUtils {
 
     }
         public void downloadFile(String dir, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-
            File file = new File(dir);
             MultipartFileSender.fromPath(file.toPath()).with(httpServletRequest).with(httpServletResponse).serveResource();
-
         }
     @Override
     public boolean createDirectory(String dir) {
