@@ -14,18 +14,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Bootstrap 101 Template</title>
-    <link href="<c:url value="/resources/css/home.css" />" rel="stylesheet">
+
     <link href="<c:url value="/resources/css/magnific-popup.css" />" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
+    <link href="<c:url value="/resources/css/home.css" />" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <script src="<c:url value="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js" />"></script>
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <script src="<c:url value="https://oss.maxcdn.com/respond/1.4.2/respond.min.js" />"></script>
+    <script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js" />" ></script>
 </head>
 <body>
-
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -38,7 +39,6 @@
             </button>
             <a class="navbar-brand" href="#">MyCloud</a>
         </div>
-
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -84,41 +84,49 @@
         <div class="col-md-8"></div>
         <div class="col-md-4">
             <a href=#form class="fpopup"><img src="<c:url value="/resources/img/addFile.png" />"></a>
-            <a href="#"><img src="<c:url value="/resources/img/addFolder.png" />"></a>
+            <a href=#secondform class="fpopup"><img src="<c:url value="/resources/img/addFolder.png" />"></a>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">
+        <div class="col-md-4" id="list">
             <c:forEach items="${folders}" var="folder">
-                <a href="${path}/${folder.name}"><img src="<c:url value="/resources/img/folder.png" />">${folder.name}</a><br>
+                <!-- Исправить-->
+                <a href="" class="clickers"><img src="<c:url value="/resources/img/folder.png" />">${folder.name}</a></br>
             </c:forEach>
             <c:forEach items="${files}" var="file">
                 <!-- Исправить-->
-                <a href="${path}/${file.name.trim()}/download"><img src="<c:url value="/resources/img/file.png" />"> ${file.name}<br></a>
+                <a href="" class="fileclick"><img src="<c:url value="/resources/img/file.png" />"> ${file.name}<br></a>
             </c:forEach>
         </div>
 
         <div class="col-md-4">.col-md-4</div>
     </div>
-
 </div>
 <div class="hidden">
-    <form action=""  id="form"  enctype="multipart/form-data">
-        <div class="form-group">
-        <input id="file_v" type="file" />
-        <div id="message_form"></div>
-        <input type="submit"  id= "firstform" value="Отправить">
-            </div>
-    </form>
-</div>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="<c:url value="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js" />" ></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
+     <form action=""  id="form"  enctype="multipart/form-data">
+           <div class="form-group">
+           <input id="file_v" type="file" />
+           <div id="message_form"></div>
+           <input type="submit"  id= "firstform" value="Отправить">
+               </div>
+       </form>
 
+   </div>
+<div class="hidden1">
+<form action=""  id="secondform" >
+    <div class="form-group">
+        <input id="foldername" type="text" name="foldername"/>
+        <input type="submit"  id= "folderform" value="Отправить">
+    </div>
+</form>
+    </div>
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.magnific-popup.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/home.js" />" ></script>
-
 </body>
 
+</html>

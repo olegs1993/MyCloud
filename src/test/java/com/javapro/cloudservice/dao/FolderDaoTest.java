@@ -19,7 +19,7 @@ public class FolderDaoTest {
     @Autowired
     FolderDao folderDao;
     @Test
-    public void test(){
+    public void test() throws Exception {
         folderDao.getFolders("test");
         folderDao.addFolder("testname","fuckers");
         folderDao.addMainFolder("fuckers");

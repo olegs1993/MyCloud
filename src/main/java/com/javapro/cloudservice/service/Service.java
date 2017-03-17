@@ -5,6 +5,9 @@ import com.javapro.cloudservice.entities.Folders;
 import com.javapro.cloudservice.entities.Users;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -14,9 +17,9 @@ import java.util.List;
 public interface Service {
     public void addUser(String name, String password);
     public void addFolder(String name, String parentfolder);
-    public void addFiles(String name, String nickname, String folder, MultipartFile multipartfile);
+    public void addFiles(String name, String nickname, String folder, MultipartFile multipartfile) throws IOException;
     public List<Files> getFiles(String name, String folder);
     public List<Folders> getFolders(String name);
     Users getUser(String nickname);
-    public void downloadFile(String filename,String nickname, OutputStream outputStream);
+    public void downloadFile(String filename, String nickname, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception;
 }

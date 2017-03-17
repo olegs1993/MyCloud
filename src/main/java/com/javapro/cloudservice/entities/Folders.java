@@ -1,5 +1,8 @@
 package com.javapro.cloudservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -82,7 +85,7 @@ public class Folders {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
-
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "foldersByFolderId")
     public List<Files> getFilesById() {
         return filesById;
@@ -91,8 +94,8 @@ public class Folders {
     public void setFilesById(List<Files> filesById) {
         this.filesById = filesById;
     }
-
-    @ManyToOne
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     public Users getUsersByUserId() {
         return usersByUserId;

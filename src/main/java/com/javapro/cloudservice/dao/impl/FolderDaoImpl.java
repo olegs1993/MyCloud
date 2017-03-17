@@ -4,6 +4,9 @@ import com.javapro.cloudservice.dao.FolderDao;
 import com.javapro.cloudservice.entities.Folders;
 import com.javapro.cloudservice.entities.Users;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -42,15 +45,15 @@ public class FolderDaoImpl implements FolderDao {
     public void deleteFolder(String name) {
 
     }
+    @Transactional
     @Override
-    public void addFolder(String name,String parentfolder) {
+    public void addFolder(String name,String parentfolder)  {
         Folders folders=new Folders();
         folders.setName(name);
         Folders parfolder = (Folders) entityManager.createQuery("select c from Folders c where c.name=:parentfolder").setParameter("parentfolder",parentfolder).getSingleResult();
         folders.setUsersByUserId(parfolder.getUsersByUserId());
         folders.setParentfolder(parfolder.getName());
         entityManager.persist(folders);
-
     }
     @Override
     public Folders getMainFolder(String name) {

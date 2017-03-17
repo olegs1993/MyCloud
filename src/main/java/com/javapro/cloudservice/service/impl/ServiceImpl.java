@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -30,6 +33,7 @@ public class ServiceImpl implements Service {
     FileUtils fileUtils;
     @Autowired
     FilesDao filesDao;
+
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
@@ -38,17 +42,16 @@ public class ServiceImpl implements Service {
         folderDao.addMainFolder(name);
         fileUtils.createDirectory("D:\\CloudUsers\\"+name);
     }
-    @Transactional
-    @SuppressWarnings("unchecked")
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void addFolder(String name, String parentfolder) {
-       folderDao.addFolder(name,parentfolder);
+        folderDao.addFolder(name,parentfolder);
     }
     //Может переписать!!!!!
     @Transactional
     @SuppressWarnings("unchecked")
     @Override
-    public void addFiles(String name, String nickname, String folder,MultipartFile multipartFile) {
+    public void addFiles(String name, String nickname, String folder,MultipartFile multipartFile) throws IOException {
         filesDao.addFiles(name,nickname,folder);
         fileUtils.uploadFile("D:\\CloudUsers\\"+nickname+"\\"+name,multipartFile );
     }
@@ -71,7 +74,7 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void downloadFile(String filname,String nickname, OutputStream outputStream) {
-        fileUtils.downloadFile("D:\\CloudUsers\\"+nickname+"\\"+filname,outputStream);
+    public void downloadFile(String filname, String nickname, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        fileUtils.downloadFile("D:\\CloudUsers\\"+nickname+"\\"+filname,httpServletRequest,httpServletResponse);
     }
 }
