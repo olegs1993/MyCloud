@@ -20,9 +20,9 @@ public class FolderDaoTest {
     FolderDao folderDao;
     @Test
     public void test() throws Exception {
-        folderDao.getFolders("test");
-        folderDao.addFolder("testname","fuckers");
-        folderDao.addMainFolder("fuckers");
+   //     folderDao.getFolders("test");
+      //  folderDao.addFolder("testname","fuckers");
+        //folderDao.addMainFolder("fuckers");
 
     }
     @Test

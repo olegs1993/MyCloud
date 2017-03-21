@@ -31,9 +31,10 @@ public class AuthorizationController {
 
     @RequestMapping(value = "/home",method = RequestMethod.POST)
     public String main(@RequestParam ("nickname")String nickname, Model model, HttpServletRequest request){
+        Folders mainfolder=service.getMainFolder(nickname);
         model.addAttribute(service.getUser(nickname));
-        List<Folders> foldersList=service.getFolders(nickname);
-        List<Files> filesList=service.getFiles(nickname,nickname);
+        List<Folders> foldersList=service.getFolders(mainfolder.getId());
+        List<Files> filesList=service.getFiles(nickname,mainfolder.getId());
         model.addAttribute("folders",foldersList);
         model.addAttribute("files",filesList);
         model.addAttribute("path",request.getRequestURI());
@@ -42,18 +43,13 @@ public class AuthorizationController {
     @RequestMapping(value = "/home/test",method = RequestMethod.GET)
     @ResponseBody
     public ContentList getCont(@ModelAttribute Users users){
-        List<Folders> foldersList=service.getFolders(users.getNickname());
-        List<Files> filesList=service.getFiles(users.getNickname(),users.getNickname());
+        Folders mainfolder=service.getMainFolder(users.getNickname());
+        List<Folders> foldersList=service.getFolders(mainfolder.getId());
+        List<Files> filesList=service.getFiles(users.getNickname(),mainfolder.getId());
         ContentList contentList=new ContentList();
         contentList.setFilesList(filesList);
         contentList.setFoldersList(foldersList);
         return contentList;
     }
-    @RequestMapping(value = "/testservice",method = RequestMethod.GET)
-    @ResponseBody
-    public String tester() throws Exception {
-        folderDao.addFolder("folder","surkach");
 
-        return "Succes";
-    }
  }

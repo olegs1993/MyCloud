@@ -1,4 +1,4 @@
-package com.javapro.cloudservice.utils;
+package com.javapro.cloudservice.utils.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +23,10 @@ import java.util.List;
  * See full code here : https://github.com/davinkevin/Podcast-Server/blob/d927d9b8cb9ea1268af74316cd20b7192ca92da7/src/main/java/lan/dk/podcastserver/utils/multipart/MultipartFileSender.java
  */
 public class MultipartFileSender {
-
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private static final int DEFAULT_BUFFER_SIZE = 20480; // ..bytes = 20KB.
     private static final long DEFAULT_EXPIRE_TIME = 604800000L; // ..ms = 1 week.
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
-
     Path filepath;
     HttpServletRequest request;
     HttpServletResponse response;

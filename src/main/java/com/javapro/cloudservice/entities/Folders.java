@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "\"Folders\"")
 public class Folders {
     private int id;
-    private String parentfolder;
+    private int parentfolder;
     private int userId;
     private String name;
     private List<Files> filesById;
@@ -32,12 +32,12 @@ public class Folders {
     }
 
     @Basic
-    @Column(name = "parentfolder", nullable = true, length = 255)
-    public String getParentfolder() {
+    @Column(name = "parentfolder", nullable = true)
+    public int getParentfolder() {
         return parentfolder;
     }
 
-    public void setParentfolder(String parentfolder) {
+    public void setParentfolder(int parentfolder) {
         this.parentfolder = parentfolder;
     }
 
@@ -61,30 +61,7 @@ public class Folders {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Folders folders = (Folders) o;
-
-        if (id != folders.id) return false;
-        if (userId != folders.userId) return false;
-        if (parentfolder != null ? !parentfolder.equals(folders.parentfolder) : folders.parentfolder != null)
-            return false;
-        if (name != null ? !name.equals(folders.name) : folders.name != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (parentfolder != null ? parentfolder.hashCode() : 0);
-        result = 31 * result + userId;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        return result;
-    }
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "foldersByFolderId")
     public List<Files> getFilesById() {

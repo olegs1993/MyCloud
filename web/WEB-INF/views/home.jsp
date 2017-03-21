@@ -92,7 +92,7 @@
         <div class="col-md-4" id="list">
             <c:forEach items="${folders}" var="folder">
                 <!-- Исправить-->
-                <a href="" class="clickers"><img src="<c:url value="/resources/img/folder.png" />">${folder.name}</a></br>
+                <a href="" class="clickers" data-id="${folder.id}" ><img src="<c:url value="/resources/img/folder.png" />">${folder.name}</a></br>
             </c:forEach>
             <c:forEach items="${files}" var="file">
                 <!-- Исправить-->

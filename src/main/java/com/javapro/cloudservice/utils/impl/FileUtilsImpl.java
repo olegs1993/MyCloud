@@ -1,7 +1,6 @@
 package com.javapro.cloudservice.utils.impl;
 
 import com.javapro.cloudservice.utils.FileUtils;
-import com.javapro.cloudservice.utils.MultipartFileSender;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 

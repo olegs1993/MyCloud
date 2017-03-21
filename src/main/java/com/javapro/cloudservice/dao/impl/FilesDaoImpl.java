@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -20,19 +21,22 @@ public class FilesDaoImpl implements FilesDao {
     EntityManager entityManager;
 
     @Override
-    public List<Files> getFiles(String nickname, String folder) {
+    public List<Files> getFiles(String nickname, int parentid) {
         users=(Users) entityManager.createQuery("select c from Users c where c.nickname=:nickname").setParameter("nickname",nickname).getSingleResult();
-        Folders folders = (Folders) entityManager.createQuery("select c from Folders c where c.name=:folder and c.userId=:userid").setParameter("folder",folder).
+        Folders folders = (Folders) entityManager.createQuery("select c from Folders c where c.id=:parentid and c.userId=:userid").setParameter("parentid",parentid).
                 setParameter("userid",users.getId()).getSingleResult();
         List<Files> listfiles= folders.getFilesById();
         return listfiles;
     }
-
     @Override
-    public Files deleteFile(String name) {
-        return null;
+    public void deleteFile(String name,String parentfolder,String foldername,int userid) {
+        Folders folders = (Folders) entityManager.createQuery("select c from Folders c where c.name=:folder and c.parentfolder=:parentfolder and c.userId=:userid").setParameter("folder",foldername)
+                .setParameter("parentfolder",parentfolder).setParameter("userid",userid).getSingleResult();
+        Files file= (Files) entityManager.createQuery("select c from Files c where c.name=:name and c.folderId=:folderid and c.userId=:userid")
+                .setParameter("name",name).setParameter("folderid",folders.getId()).setParameter("userid",userid).getSingleResult();
+        file.setFolderId(0);
+        entityManager.merge(file);
     }
-
     @Override
     public void addFiles(String name, String nickname, String folder) {
         Files files=new Files();

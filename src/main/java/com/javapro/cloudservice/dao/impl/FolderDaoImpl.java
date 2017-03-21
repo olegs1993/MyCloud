@@ -22,12 +22,11 @@ public class FolderDaoImpl implements FolderDao {
     @PersistenceContext
     EntityManager entityManager;
     @Override
-    public List<Folders> getFolders(String name) {
-        Query typedQuery = entityManager.createQuery("SELECT c from Folders c where c.parentfolder=:name");
-        typedQuery.setParameter("name", name);
-        List<Folders> foldersList=typedQuery.getResultList();
+    public List<Folders> getFolders(int parentid) {
+        Query typedQuery = entityManager.createQuery("SELECT c from Folders c where c.parentfolder=:parentid");
+        typedQuery.setParameter("parentid", parentid);
+        List<Folders> foldersList= typedQuery.getResultList();
         return foldersList;
-
     }
 
     @Override
@@ -36,23 +35,24 @@ public class FolderDaoImpl implements FolderDao {
         folders.setName(name);
         users= (Users) entityManager.createQuery("select c from Users c where c.nickname=:name").setParameter("name",name).getSingleResult();
         folders.setUsersByUserId(users);
-        folders.setParentfolder("D");
+        folders.setParentfolder(87);
         entityManager.persist(folders);
-        // Добавить в Сервисы - fileUtils.createDirectory("D:\\CloudUsers\\"+name);
-
     }
     @Override
-    public void deleteFolder(String name) {
-
+    public void deleteFolder(String name,int parentid,int id) {
+        Folders parfolder = (Folders) entityManager.createQuery("select c from Folders c where c.name=:name and c.parentfolder=:parentid and c.userId=:userid ").setParameter("name",name)
+                .setParameter("parentid",parentid).setParameter("userid",id).getSingleResult();
+        parfolder.setParentfolder(0);
+        entityManager.merge(parfolder);
     }
     @Transactional
     @Override
-    public void addFolder(String name,String parentfolder)  {
+    public void addFolder(String name,int parentid)  {
         Folders folders=new Folders();
         folders.setName(name);
-        Folders parfolder = (Folders) entityManager.createQuery("select c from Folders c where c.name=:parentfolder").setParameter("parentfolder",parentfolder).getSingleResult();
+        Folders parfolder = (Folders) entityManager.createQuery("select c from Folders c where c.id=:parentid").setParameter("parentid",parentid).getSingleResult();
         folders.setUsersByUserId(parfolder.getUsersByUserId());
-        folders.setParentfolder(parfolder.getName());
+        folders.setParentfolder(parfolder.getId());
         entityManager.persist(folders);
     }
     @Override

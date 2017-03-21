@@ -20,8 +20,8 @@ public class FilesDaoTest {
     FilesDao filesDao;
     @Test
     public void test(){
- filesDao.addFiles("test","fuckers","fuckers");
-        filesDao.getFiles("fuckers","fuckers");
+// filesDao.addFiles("test","fuckers","fuckers");
+      //  filesDao.getFiles("fuckers","fuckers");
 
     }
 }

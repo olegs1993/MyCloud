@@ -2,29 +2,21 @@
  * Created by Oleg on 04.03.2017.
  */
 $(document).ready(function () {
+    var state={"folderid":2};
+    var folderid;
   $(".fpopups").magnificPopup();
   $(".fpopup").magnificPopup();
 $(document).on('click','.clickers',function(e) {
+     state.folderid=$(this).data("id");
+    alert(state.folderid);
      var foldername=$(this).text();
      var link=window.location.pathname+"/"+foldername.trim();
-     history.pushState(null, null, link);
+     history.pushState(state, null, link);
      $.ajax({
-         url: link+"/test",
+         url: window.location.pathname+"/"+state.folderid +"/test",
          type:"GET",
      success: function(result) {
-     $('#list').empty();
-     for(var i=0;i<result.foldersList.length;i++){
-     $('#list').append("<a href='' class='clickers'>" +
-     "<img src='/resources/img/folder.png'/>"
-     +result.foldersList[i].name+"" +
-     "</a></br>");
-     }
-         for(var i=0;i<result.filesList.length;i++){
-             $('#list').append("<a href="+"'"+link+"/"+result.filesList[i].name.trim()+"/download"+"'"+ "class='fileclick'>" +
-                 "<img src='/resources/img/file.png'/>"
-                 +result.filesList[i].name.trim()+"" +
-                 "</a></br>");
-         }
+     getContent(result);
      },
      error: function(jqXHR, textStatus, errorThrown) {
      alert(jqXHR.status + ' ' + jqXHR.responseText);
@@ -53,49 +45,29 @@ $(document).on('click',"#firstform",function(e) {
         }
     });
     return false;});
-$(window).on('popstate',function(e) {
+    window.onpopstate =function(event) {
+
+    alert(event.state);
     $.ajax({
         url: window.location.pathname+ "/test",
         type: "GET",
         success: function(result) {
-            $('#list').empty();
-            for(var i=0;i<result.foldersList.length;i++){
-                $('#list').append("<a href='' class='clickers'>" +
-                    "<img src='/resources/img/folder.png'/>"
-                    +result.foldersList[i].name+"" +
-                    "</a></br>");
-            }
-            for(var i=0;i<result.filesList.length;i++){
-                $('#list').append("<a href="+"'"+window.location.pathname+"/"+result.filesList[i].name.trim()+"/download"+"'"+ "class='fileclick'>" +
-                    "<img src='/resources/img/file.png'/>"
-                    +result.filesList[i].name.trim()+"" + "</a></br>");
-            }
+           getContent(result);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert(jqXHR.status + ' ' + jqXHR.responseText);
         }
     });
-return false;
-});
-jQuery(document).on('click',"#folderform",function(e) {
+//return false;
+}
+$(document).on('click',"#folderform",function(e) {
     var file = $("#foldername").serialize();
     $.ajax({
-        url: window.location.pathname+"/addfolder",
+        url: window.location.pathname+"/"+folderid +"/addfolder",
         type: "POST",
         data: file,
         success: function(result) {
-            $('#list').empty();
-            for(var i=0;i<result.foldersList.length;i++){
-                $('#list').append("<a href='' class='clickers'>" +
-                    "<img src='/resources/img/folder.png'/>"
-                    +result.foldersList[i].name+"" +
-                    "</a></br>");
-            }
-            for(var i=0;i<result.filesList.length;i++){
-                $('#list').append("<a href="+"'"+window.location.pathname+"/"+result.filesList[i].name.trim()+"/download"+"'"+ "class='fileclick'>" +
-                    "<img src='/resources/img/file.png'/>"
-                    +result.filesList[i].name.trim()+"" + "</a></br>");
-            }
+           getContent(result);
             alert("Success");
             $.magnificPopup.close();
         },
@@ -105,3 +77,17 @@ jQuery(document).on('click',"#folderform",function(e) {
     });
     return false;});
 });
+function getContent(result) {
+    $('#list').empty();
+    for(var i=0;i<result.foldersList.length;i++){
+        $('#list').append("<a href='' class='clickers' data-id="+"'"+result.foldersList[i].id +"'"+">" +
+            "<img src='/resources/img/folder.png'/>"
+            +result.foldersList[i].name+"" +
+            "</a></br>");
+    }
+    for(var i=0;i<result.filesList.length;i++){
+        $('#list').append("<a href="+"'"+window.location.pathname+"/"+result.filesList[i].name.trim()+"/download"+"'"+ "class='fileclick' data-id="+"'"+"'"+">" +
+            "<img src='/resources/img/file.png'/>"
+            +result.filesList[i].name.trim()+"" + "</a></br>");
+    }
+}

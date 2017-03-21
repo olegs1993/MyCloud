@@ -34,7 +34,7 @@ public class ServiceImpl implements Service {
     @Autowired
     FilesDao filesDao;
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @SuppressWarnings("unchecked")
     @Override
     public void addUser(String name, String password) {
@@ -42,9 +42,15 @@ public class ServiceImpl implements Service {
         folderDao.addMainFolder(name);
         fileUtils.createDirectory("D:\\CloudUsers\\"+name);
     }
+
+    @Override
+    public Folders getMainFolder(String name) {
+        return folderDao.getMainFolder(name);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addFolder(String name, String parentfolder) {
+    public void addFolder(String name, int parentfolder) {
         folderDao.addFolder(name,parentfolder);
     }
     //Может переписать!!!!!
@@ -58,14 +64,15 @@ public class ServiceImpl implements Service {
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
     @Override
-    public List<Files> getFiles(String name, String folder) {
-        return filesDao.getFiles(name,folder);
+    public List<Files> getFiles(String name, int parentid) {
+
+        return filesDao.getFiles(name,parentid);
     }
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
     @Override
-    public List<Folders> getFolders(String name) {
-        return folderDao.getFolders(name);
+    public List<Folders> getFolders(int parentid) {
+        return folderDao.getFolders(parentid);
     }
 
     @Override
@@ -77,4 +84,14 @@ public class ServiceImpl implements Service {
     public void downloadFile(String filname, String nickname, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         fileUtils.downloadFile("D:\\CloudUsers\\"+nickname+"\\"+filname,httpServletRequest,httpServletResponse);
     }
+   /* @Transactional
+    @Override
+    public void deleteFolder(String name, String parentfolder, int id) {
+        folderDao.deleteFolder(name,parentfolder,id);
+    }
+    @Transactional
+    @Override
+    public void deleteFile(String name, String parentfolder,String foldername, int id) {
+        filesDao.deleteFile(name,parentfolder,foldername,id);
+    }*/
 }
